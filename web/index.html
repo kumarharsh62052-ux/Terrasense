@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TerraSense | Smart Waste & Automation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">T<span>•</span></div>
+        <div><strong>TerraSense</strong><small>SMART SYSTEMS</small></div>
+      </div>
+      <div class="side-label">WORKSPACE</div>
+      <a class="nav-item active" href="#overview"><span>◫</span> Overview</a>
+      <a class="nav-item" href="#sensors"><span>⌁</span> Sensor network</a>
+      <a class="nav-item" href="#controls"><span>◉</span> Actuator controls</a>
+      <div class="sidebar-bottom">
+        <div class="mini-card">
+          <div class="mini-icon">⌁</div>
+          <b>USB connection</b>
+          <p>Arduino Uno communicates locally through your computer.</p>
+          <span class="local-tag">LOCAL DEVICE</span>
+        </div>
+        <div class="profile"><div class="avatar">U</div><div><b>Project workspace</b><small>Administrator</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">CONTROL CENTER / OVERVIEW</div><h1>Smart Operations</h1></div>
+        <div class="top-actions"><span class="local-pill"><i></i> Local dashboard</span><button class="icon-btn" id="refreshBtn" title="Refresh">↻</button></div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="hero-kicker"><span class="pulse"></span> HARDWARE MONITORING</div>
+          <h2>Make every signal<br><em>mean something.</em></h2>
+          <p>Monitor your sensors, operate your mechanisms and see your Arduino Uno data in one clear workspace.</p>
+          <div class="hero-actions"><a href="#sensors" class="primary-btn">Explore sensors <span>↗</span></a><span class="hero-note">USB SERIAL • 9600 BAUD</span></div>
+        </div>
+        <div class="hero-art">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="core"><div class="core-chip">UNO</div><span>ARDUINO</span></div>
+          <div class="float-node node-a"><span class="node-dot green"></span> IR detection</div>
+          <div class="float-node node-b"><span class="node-dot blue"></span> Rain sensing</div>
+          <div class="float-node node-c"><span class="node-dot amber"></span> Motion control</div>
+        </div>
+      </section>
+
+      <section class="connection-row">
+        <div class="connection-info"><div class="connection-icon">⌁</div><div><b>Arduino USB connection</b><small id="connectionText">Not connected · Select your board port to begin</small></div></div>
+        <div class="connect-controls"><select id="portSelect"><option value="">Detecting ports…</option></select><button class="connect-btn" id="connectBtn">Connect device</button></div>
+      </section>
+
+      <section class="section-head" id="overview"><div><div class="eyebrow">LIVE TELEMETRY</div><h3>System at a glance</h3></div><span class="updated" id="lastUpdated">Waiting for first reading</span></section>
+      <section class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span class="stat-label">IR SENSOR</span><span class="stat-symbol purple">⌖</span></div><div class="stat-value" id="irValue">—</div><div class="stat-foot"><span id="irStatus">Awaiting data</span><span class="tiny-dot"></span></div></article>
+        <article class="stat-card"><div class="stat-top"><span class="stat-label">PROXIMITY SWITCH</span><span class="stat-symbol blue">◉</span></div><div class="stat-value" id="proxValue">—</div><div class="stat-foot"><span id="proxStatus">Awaiting data</span><span class="tiny-dot"></span></div></article>
+        <article class="stat-card"><div class="stat-top"><span class="stat-label">RAINDROP SENSOR</span><span class="stat-symbol cyan">⌁</span></div><div class="stat-value"><span id="rainValue">—</span><small>%</small></div><div class="meter"><span id="rainMeter"></span></div><div class="stat-foot"><span id="rainRaw">Raw value: —</span><span>AO / A0</span></div></article>
+        <article class="stat-card"><div class="stat-top"><span class="stat-label">DEVICE LINK</span><span class="stat-symbol green">↔</span></div><div class="stat-value compact" id="linkValue">Offline</div><div class="stat-foot"><span id="portLabel">No serial port</span><span class="tiny-dot"></span></div></article>
+      </section>
+
+      <section class="content-grid" id="sensors">
+        <article class="panel sensor-panel">
+          <div class="panel-heading"><div><div class="eyebrow">INPUT DEVICES</div><h3>Sensor network</h3></div><span class="live-label"><i></i> LIVE</span></div>
+          <div class="sensor-row"><div class="sensor-icon purple-bg">⌖</div><div class="sensor-details"><b>Infrared sensor</b><small>Digital obstacle / object detection · D2</small></div><div class="sensor-state" id="irBadge">Waiting</div></div>
+          <div class="sensor-row"><div class="sensor-icon blue-bg">◉</div><div class="sensor-details"><b>Proximity switch</b><small>Digital proximity input · D3</small></div><div class="sensor-state" id="proxBadge">Waiting</div></div>
+          <div class="sensor-row"><div class="sensor-icon cyan-bg">☂</div><div class="sensor-details"><b>Raindrop sensor</b><small>Analog moisture / rain level · A0</small></div><div class="sensor-state" id="rainBadge">Waiting</div></div>
+          <div class="sensor-note"><span>ⓘ</span> Sensor polarity and rain percentage need calibration for your exact modules.</div>
+        </article>
+
+        <article class="panel activity-panel">
+          <div class="panel-heading"><div><div class="eyebrow">DEVICE ACTIVITY</div><h3>Latest readings</h3></div><span class="activity-count" id="readingCount">0 EVENTS</span></div>
+          <div class="activity-list" id="activityList"><div class="empty-state"><div>⌁</div><b>No telemetry yet</b><small>Connect your Arduino Uno to start receiving data.</small></div></div>
+        </article>
+      </section>
+
+      <section class="section-head" id="controls"><div><div class="eyebrow">OUTPUT DEVICES</div><h3>Actuator control room</h3></div><span class="section-caption">Commands travel back through USB serial</span></section>
+      <section class="control-grid">
+        <article class="panel control-card">
+          <div class="control-title"><div class="sensor-icon orange-bg">◒</div><div><b>Servo motor</b><small>Gate / arm position · D9</small></div><span class="control-chip">SERVO</span></div>
+          <div class="servo-readout"><strong id="servoAngle">90°</strong><span>Target angle</span></div>
+          <input type="range" id="servoSlider" min="0" max="180" value="90" />
+          <div class="range-labels"><span>0°</span><span>90°</span><span>180°</span></div>
+          <button class="wide-btn" id="servoBtn">Send servo position</button>
+        </article>
+        <article class="panel control-card">
+          <div class="control-title"><div class="sensor-icon red-bg">♫</div><div><b>Active buzzer</b><small>Audible alert · D8</small></div><span class="control-chip">ALERT</span></div>
+          <div class="buzzer-state"><div class="buzzer-visual" id="buzzerVisual">♫</div><div><strong id="buzzerText">Buzzer off</strong><small>Toggle the sound output</small></div></div>
+          <button class="wide-btn" id="buzzerBtn">Turn buzzer on</button>
+          <p class="microcopy">Use a small active buzzer module. Add a transistor driver if required by its current rating.</p>
+        </article>
+        <article class="panel control-card stepper-card">
+          <div class="control-title"><div class="sensor-icon green-bg">⟳</div><div><b>Stepper motor</b><small>STEP/DIR driver · D4 / D5</small></div><span class="control-chip">MOTION</span></div>
+          <div class="stepper-readout"><strong id="stepperDirection">Ready</strong><span>Pulse-based movement</span></div>
+          <label class="field-label" for="stepCount">Number of steps (max 2000 per move)</label>
+          <input class="number-input" id="stepCount" type="number" min="1" max="2000" value="200" />
+          <div class="step-buttons"><button class="wide-btn secondary" id="stepReverse">← Reverse</button><button class="wide-btn" id="stepForward">Forward →</button></div>
+          <p class="microcopy">Actual rotation depends on motor step angle, driver current and microstep settings.</p>
+        </article>
+      </section>
+
+      <footer><div class="footer-brand">TerraSense <span>•</span> Arduino Uno Integration</div><div>LOCAL USB SERIAL CONNECTION <span class="footer-dot"></span> DATA STAYS ON THIS COMPUTER</div></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
